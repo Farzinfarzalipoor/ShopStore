@@ -17,6 +17,25 @@ public class Cart {
         overallPrice += product.getPrice();
     }
 
+    public void print() {
+        if (isEmpty()) {
+            System.out.println("Cart is empty");
+            return;
+        }
+        for (Product p : products) {
+            System.out.println(p);
+        }
+    }
+
+    public boolean isEmpty() {
+        for (Product p : products) {
+            if (p != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getOverallPrice() {
         return overallPrice;
     }

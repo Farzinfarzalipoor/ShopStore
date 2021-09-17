@@ -30,10 +30,10 @@ public class Store {
                     delProduct();
                     break;
                 case 5:
-                    printAdd();
+                    user.getCart().print();
                     break;
                 case 6:
-                    printPrice();
+                    System.out.println("The overall price of the Cart is : " + user.getCart().getOverallPrice());
                     break;
                 case 7:
                     confirm();
@@ -87,7 +87,7 @@ public class Store {
         Product buyProduct = new Product();
         for (Product p : products) {
             if (Objects.equals(id, p.getId())) {
-                if(p.getStock() > stock){
+                if (p.getStock() > stock) {
                     buyProduct.setStock(stock);
                     buyProduct.setId(id);
                     buyProduct.setName(p.getName());
@@ -95,12 +95,8 @@ public class Store {
                     buyProduct.setType(p.getType());
 
                     user.getCart().addProduct(buyProduct);
-
-                    int remindStock = p.getStock() - stock;
-                    p.setStock(remindStock);
-
                     System.out.println("Product is added successfully");
-                }else{
+                } else {
                     System.out.println("Stock is not enough!!!");
                 }
                 found = true;
@@ -125,20 +121,27 @@ public class Store {
             }
         }
         products = newProducts;
-        if(!found) {
+        if (!found) {
             System.out.println("There is no product with entered id");
         }
     }
 
-    private static void printAdd() {
-    }
-
-    private static void printPrice() {
-    }
-
     private static void confirm() {
+        for (Product p : user.getCart().products) {
+            reduceStock(p.getId(), p.getStock());
+        }
+        System.out.println("This is your cart stock:");
+        user.getCart().print();
+        user.setCart(new Cart());
     }
 
+    public static void reduceStock(String id, int stock) {
+        for (Product p : products) {
+            if (Objects.equals(p.getId(), id)) {
+                p.setStock(p.getStock() - stock);
+            }
+        }
+    }
 
     private static void insertProduct() {
         int index = 0;
