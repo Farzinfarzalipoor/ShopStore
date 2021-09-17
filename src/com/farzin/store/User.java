@@ -9,6 +9,15 @@ public class User {
     private String email;
     private String address;
     private String postalCode;
+    private Cart cart = new Cart();
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     public String getPostalCode() {
         return postalCode;

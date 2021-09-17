@@ -1,11 +1,11 @@
 package com.farzin.store;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Store {
-    static User[] user;
-    static int index = 0;
-    private static Product[] product = new Product[6];
+    static User user;
+    private static Product[] products = new Product[6];
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -48,39 +48,86 @@ public class Store {
     private static void addUser() {
         System.out.println("Enter number of users you want to add");
         int n = sc.nextInt();
-        user = new User[n];
+        user = new User();
 
-        user[index] = new User();
         System.out.println("Enter user-name:");
-        user[index].setUsername(sc.next());
+        user.setUsername(sc.next());
         System.out.println("Enter password:");
-        user[index].setPassword(sc.nextInt());
+        user.setPassword(sc.nextInt());
         System.out.println("Enter first name:");
-        user[index].setFirstName(sc.next());
+        user.setFirstName(sc.next());
         System.out.println("Enter last name:");
-        user[index].setLastName(sc.next());
+        user.setLastName(sc.next());
         System.out.println("Enter phone number:");
-        user[index].setPhoneNum(sc.next());
+        user.setPhoneNum(sc.next());
         System.out.println("Enter e-mail:");
-        user[index].setEmail(sc.next());
+        user.setEmail(sc.next());
         System.out.println("Enter address(Province-City-Avenue:");
-        user[index].setAddress(sc.nextLine());
+        user.setAddress(sc.nextLine());
         sc.nextLine();
         System.out.println("Enter postal code: ");
-        user[index].setPostalCode(sc.next());
-        index++;
+        user.setPostalCode(sc.next());
 
 
     }
 
     private static void showAll() {
-        print();
+        System.out.println("products list: ");
+        for (Product p : products) {
+            System.out.println("\t" + p.toString());
+        }
     }
 
     private static void addProduct() {
+        System.out.println("Enter product id: ");
+        String id = sc.next();
+        System.out.println("Enter number of products you want to buy: ");
+        int stock = sc.nextInt();
+        boolean found = false;
+        Product buyProduct = new Product();
+        for (Product p : products) {
+            if (Objects.equals(id, p.getId())) {
+                if(p.getStock() > stock){
+                    buyProduct.setStock(stock);
+                    buyProduct.setId(id);
+                    buyProduct.setName(p.getName());
+                    buyProduct.setPrice(p.getPrice());
+                    buyProduct.setType(p.getType());
+
+                    user.getCart().addProduct(buyProduct);
+
+                    int remindStock = p.getStock() - stock;
+                    p.setStock(remindStock);
+
+                    System.out.println("Product is added successfully");
+                }else{
+                    System.out.println("Stock is not enough!!!");
+                }
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("There is no product with entered id");
+        }
     }
 
     private static void delProduct() {
+        System.out.println("Enter product id: ");
+        boolean found = false;
+        Product[] newProducts = new Product[products.length];
+        String id = sc.next();
+        int j = 0;
+        for (Product product : products) {
+            if (!Objects.equals(id, product.getId())) {
+                newProducts[j] = product;
+                found = true;
+                j++;
+            }
+        }
+        products = newProducts;
+        if(!found) {
+            System.out.println("There is no product with entered id");
+        }
     }
 
     private static void printAdd() {
@@ -96,53 +143,53 @@ public class Store {
     private static void insertProduct() {
         int index = 0;
         Product p1 = new Product();
+        p1.setId("1");
         p1.setName("Radio");
         p1.setStock(10);
         p1.setPrice(100000);
         p1.setType(Product.Type.ELECTRICAL);
-        product[index++] = p1;
+        products[index++] = p1;
 
         Product p2 = new Product();
+        p2.setId("2");
         p2.setName("TV");
         p2.setStock(10);
         p2.setPrice(500000);
         p2.setType(Product.Type.ELECTRICAL);
-        product[index++] = p2;
+        products[index++] = p2;
 
         Product p3 = new Product();
+        p3.setId("3");
         p3.setName("Sport");
         p3.setStock(10);
         p3.setPrice(300000);
         p3.setType(Product.Type.SHOE);
-        product[index++] = p3;
+        products[index++] = p3;
 
         Product p4 = new Product();
+        p4.setId("4");
         p4.setName("Official");
         p4.setStock(10);
         p4.setPrice(400000);
         p4.setType(Product.Type.SHOE);
-        product[index++] = p4;
+        products[index++] = p4;
 
         Product p5 = new Product();
+        p5.setId("5");
         p5.setName("Book");
         p5.setStock(10);
         p5.setPrice(60000);
         p5.setType(Product.Type.READABLE);
-        product[index++] = p5;
+        products[index++] = p5;
 
 
         Product p6 = new Product();
+        p6.setId("6");
         p6.setName("Magazine");
         p6.setStock(10);
         p6.setPrice(10000);
         p6.setType(Product.Type.READABLE);
-        product[index] = p6;
-    }
-
-    private static void print(){
-        for (Product p: product){
-            System.out.println("products: " + p.toString());
-        }
+        products[index] = p6;
     }
 }
 
