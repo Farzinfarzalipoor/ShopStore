@@ -1,6 +1,6 @@
 package com.farzin.store;
 
-public class Products {
+public class Product {
     private String name;
     private int stock;
     private int price;
@@ -42,5 +42,15 @@ public class Products {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Products{" +
+                "name='" + name + '\'' +
+                ", stock=" + stock +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }
